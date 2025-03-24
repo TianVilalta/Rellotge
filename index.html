@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captura i Envia Foto</title>
+</head>
+<body>
+    <video id="video" width="320" height="240" autoplay></video>
+    <button id="capture">Capturar Foto</button>
+    <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+    <button id="send" style="display:none;">Enviar per correu</button>
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureButton = document.getElementById('capture');
+        const sendButton = document.getElementById('send');
+        const context = canvas.getContext('2d');
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => video.srcObject = stream)
+            .catch(err => console.error("Error accedint a la càmera", err));
+
+        captureButton.addEventListener('click', () => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            sendButton.style.display = 'block';
+        });
+
+        sendButton.addEventListener('click', () => {
+            const imageData = canvas.toDataURL('image/png');
+            fetch('https://el_teu_servidor.com/enviar_foto', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: imageData, email: 'tianvilaltapons@gmail.com' })
+            }).then(response => alert("Foto enviada!"))
+            .catch(error => console.error("Error enviant la foto", error));
+        });
+    </script>
+</body>
+</html>
