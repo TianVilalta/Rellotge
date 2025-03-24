@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Hora i Descripció</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            display: inline-block;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        input, textarea {
+            font-size: 1.2em;
+            border: none;
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <form action="https://formspree.io/f/mwplbzle" method="POST">
+        <label for="hora">Hora Actual:</label><br>
+        <input type="text" id="hora" name="hora" readonly><br><br>
+
+        <label for="descripcio">Descripció:</label><br>
+        <textarea id="descripcio" name="descripcio" placeholder="Escriu aquí..."></textarea><br><br>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        // Captura l'hora actual i la mostra al camp d'entrada
+        function actualitzaHora() {
+            const now = new Date();
+            const horaActual = now.toLocaleTimeString('ca-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('hora').value = horaActual;
+        }
+
+        // Executar la funció quan es carrega la pàgina
+        window.onload = actualitzaHora;
+    </script>
+</body>
+</html>
