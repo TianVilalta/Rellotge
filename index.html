@@ -1,76 +1,359 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enviar Hora i Descripció</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
-            background-color: #f4f4f4;
-        }
-        h2 {
-            color: #333;
-        }
-        form {
-            background: white;
-            padding: 20px;
-            display: inline-block;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        input, textarea {
-            font-size: 1.2em;
-            border: none;
-            background: #eee;
-            padding: 10px;
-            border-radius: 5px;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        textarea {
-            height: 100px;
-            resize: none;
-        }
-        button {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        button:hover {
-            background: #218838;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Galeria i Informació</title>
+  <style>
+    body {
+      background-color: white;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: #111;
+    }
+
+    /* Galeria */
+    .main-section {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .gallery {
+      position: relative;
+      width: 900px;
+      height: 420px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .gallery img {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 32px;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.16);
+      transition: transform 0.2s;
+      top: 0;
+      opacity: 0;
+      animation: slideInFromRight 1s forwards;
+    }
+
+    .gallery img:hover {
+      z-index: 10;
+      transform: scale(1.15) translateY(-20px);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.28);
+    }
+
+    .gallery img:nth-child(1) {
+      left: 0;
+      z-index: 2;
+      transform: rotate(-15deg) translateY(20px) translateX(-40px);
+      animation-delay: 0.2s;
+    }
+
+    .gallery img:nth-child(2) {
+      left: 250px;
+      z-index: 3;
+      transform: rotate(0deg);
+      animation-delay: 0.5s;
+    }
+
+    .gallery img:nth-child(3) {
+      left: 500px;
+      z-index: 2;
+      transform: rotate(15deg) translateY(20px) translateX(40px);
+      animation-delay: 0.8s;
+    }
+
+    @keyframes slideInFromRight {
+      from {
+        opacity: 0;
+        transform: translateX(100vw) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    hr.separator {
+      border: 0;
+      height: 2px;
+      background: #111;
+      margin: 40px 0 0 0;
+    }
+
+    /* Secció producte */
+    .product-section {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 48px;
+      margin-top: 40px;
+      padding-bottom: 40px;
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .characteristics {
+      max-width: 540px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .characteristics img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+      flex-shrink: 0;
+    }
+
+    .characteristics-text {
+      font-size: 1.1rem;
+      color: #222;
+    }
+
+    .characteristics-text h2 {
+      margin-top: 0;
+      font-size: 2.2rem;
+      color: #111;
+    }
+
+    .characteristics-text ul {
+      margin: 12px 0 0 18px;
+      padding: 0;
+      font-size: 1rem;
+      list-style-type: disc;
+    }
+
+    .characteristics-text li {
+      margin-bottom: 6px;
+    }
+
+    .color-btn {
+      display: inline-block;
+      margin-left: 8px;
+      margin-right: 4px;
+      padding: 4px 16px;
+      border-radius: 8px;
+      background: #f4f4f4;
+      color: #222;
+      font-size: 1rem;
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .color-btn:hover,
+    .color-btn.active {
+      background: #e0e0e0;
+    }
+
+    .info-box {
+      background-color: #111;
+      color: white;
+      border-radius: 24px;
+      padding: 32px 24px;
+      width: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      flex-shrink: 0;
+    }
+
+    .info-box .price {
+      font-size: 2.4rem;
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+
+    .info-box button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #f4f4f4;
+      color: #111;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .info-box button:hover {
+      background-color: #ddd;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      width: 320px;
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #111;
+    }
+
+    .modal-content form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .modal-content label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+    }
+
+    .modal-content button {
+      padding: 8px 16px;
+      font-size: 1rem;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+      background-color: #111;
+      color: white;
+      cursor: pointer;
+    }
+
+    .modal-content button:hover {
+      background-color: #333;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .product-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="main-section">
+    <div class="gallery">
+      <img src="images/image1.jpg" alt="Image 1" />
+      <img src="images/image2.jpg" alt="Image 2" />
+      <img src="images/image3.jpg" alt="Image 3" />
+    </div>
+  </div>
 
-    <form action="https://formspree.io/f/mwplbzle" method="POST">
-        <label for="hora">Hora Actual:</label><br>
-        <input type="text" id="hora" name="hora" readonly><br><br>
+  <hr class="separator" />
 
-        <label for="descripcio">Descripció:</label><br>
-        <textarea id="descripcio" name="descripcio" placeholder="Escriu aquí..."></textarea><br><br>
+  <section class="product-section" aria-label="Informació del producte">
+    <div class="characteristics">
+      <img src="images/image2.jpg" alt="Rellotge Català" />
+      <div class="characteristics-text">
+        <h2>Rellotge Català</h2>
+        <strong>Característiques:</strong>
+        <ul>
+          <li><b>Pes:</b> 1,2 kg</li>
+          <li><b>Mides:</b> 32 x 32 x 5 cm</li>
+          <li><b>Material:</b> Metall i Plàstic</li>
+          <li><b>Color:</b>
+            <span class="color-btn" data-img="2">Ferro</span>
+            <span class="color-btn" data-img="1">Plata</span>
+            <span class="color-btn" data-img="3">Rovell</span>
+          </li>
+        </ul>
+      </div>
+    </div>
 
+    <aside class="info-box" aria-label="Preu">
+      <div class="price">150€</div>
+      <button id="openModal">Demanar</button>
+    </aside>
+  </section>
+
+  <!-- Finestra modal -->
+  <div class="modal" id="orderModal">
+    <div class="modal-content">
+      <h3>Selecciona el color</h3>
+      <form id="orderForm" action="https://formspree.io/f/myzpjljp" method="POST">
+        <label><input type="radio" name="color" value="Ferro" required /> Ferro</label>
+        <label><input type="radio" name="color" value="Plata" /> Plata</label>
+        <label><input type="radio" name="color" value="Rovell" /> Rovell</label>
         <button type="submit">Enviar</button>
-    </form>
+      </form>
+    </div>
+  </div>
 
-    <script>
-        // Captura l'hora actual i la mostra al camp d'entrada
-        function actualitzaHora() {
-            const now = new Date();
-            const horaActual = now.toLocaleTimeString('ca-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            document.getElementById('hora').value = horaActual;
-        }
+  <script>
+    // Color preview
+    const colorBtns = document.querySelectorAll('.color-btn');
+    const imgElement = document.querySelector('img[alt="Rellotge Català"]');
+    const imgMap = {
+      1: 'images/image1.jpg',
+      2: 'images/image2.jpg',
+      3: 'images/image3.jpg'
+    };
 
-        // Executar la funció quan es carrega la pàgina
-        window.onload = actualitzaHora;
-    </script>
+    colorBtns.forEach(btn => {
+      btn.addEventListener('click', function () {
+        colorBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const imgIdx = this.getAttribute('data-img');
+        imgElement.src = imgMap[imgIdx];
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      colorBtns[0].click();
+    });
+
+    // Modal
+    const modal = document.getElementById('orderModal');
+    const openModalBtn = document.getElementById('openModal');
+
+    openModalBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    document.getElementById('orderForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const selected = document.querySelector('input[name="color"]:checked');
+      modal.style.display = 'none';
+    });
+  </script>
 </body>
 </html>
