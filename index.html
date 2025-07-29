@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rellotge Català</title>
+  <style>
+    body {
+      background-color: white;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: #111;
+    }
+    img {
+      width: 90%;
+
+      height: 90%;
+      display: block;
+      margin: 0 auto;
+    }
+
+
+    .gallery img:nth-child(1) { animation-delay: 0.2s; }
+    .gallery img:nth-child(2) { animation-delay: 0.4s; }
+    .gallery img:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes slideInFromRight {
+      from {
+        opacity: 0;
+        transform: translateX(100vw) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    hr.separator {
+      border: 0;
+      height: 2px;
+      background: #111;
+      margin: 40px 0 0 0;
+    }
+
+    .product-section {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 48px;
+      margin-top: 40px;
+      padding-bottom: 40px;
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .characteristics {
+      max-width: 540px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .characteristics img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+      flex-shrink: 0;
+    }
+
+    .characteristics-text {
+      font-size: 1.1rem;
+      color: #222;
+    }
+
+    .characteristics-text h2 {
+      margin-top: 0;
+      font-size: 2.2rem;
+      color: #111;
+    }
+
+    .characteristics-text ul {
+      margin: 12px 0 0 18px;
+      padding: 0;
+      font-size: 1rem;
+      list-style-type: disc;
+    }
+
+    .characteristics-text li {
+      margin-bottom: 6px;
+    }
+
+    .color-btn {
+      display: inline-block;
+      margin-left: 8px;
+      margin-right: 4px;
+      padding: 4px 16px;
+      border-radius: 8px;
+      background: #f4f4f4;
+      color: #222;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .color-btn:hover,
+    .color-btn.active {
+      background: #e0e0e0;
+    }
+
+    .info-box {
+      background-color: #111;
+      color: white;
+      border-radius: 24px;
+      padding: 32px 24px;
+      width: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      flex-shrink: 0;
+    }
+
+    .info-box .price {
+      font-size: 2.4rem;
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+
+    .info-box button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #f4f4f4;
+      color: #111;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .info-box button:hover {
+      background-color: #ddd;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      width: 520px;
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #111;
+    }
+
+    .modal-form {
+      display: flex;
+      gap: 24px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .form-left,
+    .form-right {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .form-left label,
+    .form-right label {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 1rem;
+      color: #111;
+    }
+
+    .form-right input {
+      width: 100%;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      margin-top: 4px;
+      box-sizing: border-box;
+    }
+
+    .form-right button {
+      margin-top: 16px;
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 10px;
+      background-color: #111;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .form-right button:hover {
+      background-color: #333;
+    }
+
+    .form-left label {
+      position: relative;
+      padding-left: 44px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-left input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .form-left label::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 28px;
+      height: 28px;
+      border: 2px solid #111;
+      background-color: white;
+      border-radius: 4px;
+      transition: background 0.2s, border 0.2s;
+    }
+
+    label:has(input[type="radio"]:checked[value="Ferro"])::before {
+      background-color: #555;
+      border-color: #555;
+    }
+
+    label:has(input[type="radio"]:checked[value="Plata"])::before {
+      background-color: #ccc;
+      border-color: #ccc;
+    }
+
+    label:has(input[type="radio"]:checked[value="Rovell"])::before {
+      background-color: #b06a42;
+      border-color: #b06a42;
+    }
+
+    @media (max-width: 768px) {
+      .gallery {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .gallery img {
+        width: 80%;
+        max-width: 90%;
+      }
+
+      .product-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+      }
+
+      .modal-content {
+        width: 90%;
+      }
+
+      .modal-form {
+        flex-direction: column;
+      }
+    }
+
+    .imgs {
+      text-align: center;
+    }
+
+    .rodona {
+      width: 70%;
+      height: auto;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <img src="images/4.png" alt="Image 2" />
+
+  <hr class="separator"/>
+
+  <section class="product-section" aria-label="Informació del producte">
+    <div class="characteristics">
+      <img src="images/2.png" alt="Rellotge Català" />
+      <div class="characteristics-text">
+        <h2>Rellotge Català</h2>
+        <strong>Característiques:</strong>
+        <ul>
+          <li><b>Pes:</b> 1,2 kg</li>
+          <li><b>Mides:</b> 32 x 32 x 5 cm</li>
+          <li><b>Material:</b> Metall i Plàstic</li>
+          <li><b>Color:</b>
+            <span class="color-btn" data-img="2">Ferro</span>
+            <span class="color-btn" data-img="1">Plata</span>
+            <span class="color-btn" data-img="3">Rovell</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <aside class="info-box" aria-label="Preu">
+      <div class="price">150€</div>
+      <button id="openModal">Demanar</button>
+    </aside>
+  </section>
+
+  <hr class="separator"/>
+
+  <br> <br> <br> 
+  <div class="imgs">
+    <img src="images/5.png" alt="Una imatge" class="rodona"/>
+  </div>
+
+  <br> <br> <br> <br> <br> <br>
+  <div class="imgs">
+    <img src="images/6.png" alt="Una imatge" class="rodona"/>
+  </div>
+
+  <br> <br> <br> <br> <br> <br>
+  <div class="imgs">
+    <img src="images/7.png" alt="Una imatge" class="rodona"/>
+  </div>
+
+  <br> <br> <br> <br> <br> <br>
+  <div class="imgs">
+    <img src="images/8.png" alt="Una imatge" class="rodona"/>
+  </div>
+
+  <div class="modal" id="orderModal">
+    <div class="modal-content">
+      <h3>Fes la teva comanda</h3>
+      <form action="https://formspree.io/f/myzpjljp" method="POST" class="modal-form">
+        <input type="hidden" name="subject" value="Rellotge Català" />
+        <div class="form-left">
+          <label>
+            <input type="radio" name="Color" value="Ferro" required />
+            <span>Ferro</span>
+          </label>
+          <label>
+            <input type="radio" name="Color" value="Plata" />
+            <span>Plata</span>
+          </label>
+          <label>
+            <input type="radio" name="Color" value="Rovell" />
+            <span>Rovell</span>
+          </label>
+        </div>
+        <div class="form-right">
+          <label>
+            Nom i cognoms:
+            <input type="text" name="Nom" required />
+          </label>
+          <label>
+            Correu electrònic:
+            <input type="email" name="Email" required />
+          </label>
+          <button type="submit">Enviar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="confirmModal">
+    <div class="modal-content">
+      <h3>Confirmar comanda</h3>
+      <p>Estàs segur que vols enviar aquesta comanda? Podràs anul·lar la comanda en qualsevol moment.</p>
+      <div style="margin-top: 20px; display: flex; justify-content: center; gap: 16px;">
+        <button id="confirmSend" style="padding: 10px 20px; background: #111; color: white; border: none; border-radius: 10px; cursor: pointer;">Enviar</button>
+        <button id="cancelSend" style="padding: 10px 20px; background: #ccc; color: #111; border: none; border-radius: 10px; cursor: pointer;">Cancel·lar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const colorBtns = document.querySelectorAll('.color-btn');
+    const imgElement = document.querySelector('img[alt="Rellotge Català"]');
+    const imgMap = {
+      1: 'images/1.png',
+      2: 'images/2.png',
+      3: 'images/3.png'
+    };
+
+    colorBtns.forEach(btn => {
+      btn.addEventListener('click', function () {
+        colorBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const imgIdx = this.getAttribute('data-img');
+        imgElement.src = imgMap[imgIdx];
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      colorBtns[0].click();
+    });
+
+    const modal = document.getElementById('orderModal');
+    const openModalBtn = document.getElementById('openModal');
+
+    openModalBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    const form = document.querySelector('.modal-form');
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmBtn = document.getElementById('confirmSend');
+    const cancelBtn = document.getElementById('cancelSend');
+    let formData = null;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      formData = new FormData(form);
+      confirmModal.style.display = 'flex';
+    });
+
+    confirmBtn.addEventListener('click', () => {
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(() => {
+        confirmModal.style.display = 'none';
+        modal.style.display = 'none';
+        alert('Comanda enviada correctament!');
+        form.reset();
+      }).catch(() => {
+        alert('Error en enviar la comanda.');
+      });
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      confirmModal.style.display = 'none';
+    });
+
+    confirmModal.addEventListener('click', (e) => {
+      if (e.target === confirmModal) {
+        confirmModal.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
