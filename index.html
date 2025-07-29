@@ -303,12 +303,21 @@
   <div class="modal" id="orderModal">
     <div class="modal-content">
       <h3>Selecciona el color</h3>
-      <form id="orderForm" action="https://formspree.io/f/myzpjljp" method="POST">
-        <label><input type="radio" name="color" value="Ferro" required /> Ferro</label>
-        <label><input type="radio" name="color" value="Plata" /> Plata</label>
-        <label><input type="radio" name="color" value="Rovell" /> Rovell</label>
-        <button type="submit">Enviar</button>
-      </form>
+      <form
+  action="https://formspree.io/f/myzpjljp"
+  method="POST"
+>
+  <label>
+    Your email:
+    <input type="email" name="email">
+  </label>
+  <label>
+    Your message:
+    <textarea name="message"></textarea>
+  </label>
+  <!-- your other form fields go here -->
+  <button type="submit">Send</button>
+</form>
     </div>
   </div>
 
