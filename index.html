@@ -82,7 +82,6 @@
 
   <form id="orderForm" action="https://formsubmit.co/tianvilaltapons@gmail.com" method="POST" style="display:none;">
     <input type="text" name="name" id="formName" required>
-    <input type="text" name="ubicació" id="formUbic" required>
     <input type="hidden" name="color" id="formColor" value="ferro">
   </form>
 
@@ -127,15 +126,8 @@
       } else {
         alert("Has de posar un nom per completar la compra.");
       }
-
-      const ubi = prompt("Introdueix la teva ubicació:");
-      if(ubi && ubi.trim() !== ""){
-        formUbic.value = ubi.trim();
-        orderForm.submit(); // envia el formulari
-      } else {
-        alert("Has de posar una ubicació per completar la compra.");
-      }
     });
   </script>
 </body>
 </html>
+
