@@ -1,4 +1,81 @@
-<!-- Formulari ocult -->
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rellorge Català</title>
+  <link rel="icon" href="images/Foto.png" type="image/png">
+  <style>
+    :root{--accent:#f6a000;--muted:#666}
+    body{font-family:Inter,system-ui,Segoe UI,Arial;line-height:1.4;margin:0;padding:24px;background:#fbfbfb;color:#111}
+    .container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:32px}
+    .gallery{background:#fff;border-radius:10px;padding:18px;box-shadow:0 6px 20px rgba(0,0,0,.06)}
+    .main-image{width:100%;height:520px;border-radius:8px;object-fit:contain;background:#f5f5f7;padding:20px}
+    .thumbs{display:flex;gap:12px;margin-top:12px}
+    .thumb{width:72px;height:72px;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .thumb.active{border-color:var(--accent)}
+
+    .meta{background:#fff;padding:22px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.06)}
+    h1{margin:0 0 8px;font-size:20px}
+    .price{font-size:28px;color:#111;margin:6px 0}
+    .old{color:var(--muted);text-decoration:line-through;margin-left:8px;font-size:14px}
+    .label{font-size:13px;color:var(--muted);margin-top:14px}
+    .colors{display:flex;gap:10px;margin-top:10px}
+    .color-btn{padding:8px 12px;border-radius:8px;border:1px solid #e6e6e6;background:#fff;cursor:pointer}
+    .color-btn.selected{box-shadow:0 3px 8px rgba(0,0,0,.06);border-color:var(--accent)}
+    .color-preview{display:inline-block;width:18px;height:18px;border-radius:4px;vertical-align:middle;margin-right:8px}
+    .actions{margin-top:20px;display:flex;gap:12px}
+    .btn{flex:1;padding:12px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+    .buy{background:#111;color:#fff}
+
+    .specs{margin-top:18px;color:var(--muted);font-size:14px}
+
+    @media (max-width:900px){
+      .container{grid-template-columns:1fr;}
+      .main-image{height:420px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="gallery">
+      <img id="mainImage" class="main-image" src="images/Ferro.png" alt="Rellorge Català - Ferro">
+      <div class="thumbs" id="thumbs">
+        <div class="thumb active" data-color="ferro"><img src="images/Ferro.png" alt="Ferro"></div>
+        <div class="thumb" data-color="rovell"><img src="images/Rovell.png" alt="Rovell"></div>
+        <div class="thumb" data-color="plata"><img src="images/Plata.png" alt="Plata"></div>
+      </div>
+    </div>
+
+    <aside class="meta">
+      <h1>Rellorge Català</h1>
+      <div class="price">150,00 € <span class="old">199,00 €</span></div>
+
+      <div class="label">Color</div>
+      <div class="colors" id="colorBtns">
+        <button class="color-btn selected" data-color="ferro"><span class="color-preview" style="background:#5a5856"></span>Ferro</button>
+        <button class="color-btn" data-color="rovell"><span class="color-preview" style="background:#a64b2a"></span>Rovell</button>
+        <button class="color-btn" data-color="plata"><span class="color-preview" style="background:#cfcfcf"></span>Plata</button>
+      </div>
+
+      <div class="actions">
+        <button class="btn buy" id="buyNow">Comprar ara</button>
+      </div>
+
+      <div class="specs">
+        <strong>Descripció:</strong>
+        <p>Rellorge Català d'alta qualitat amb acabats personalitzats en Ferro, Rovell o Plata. Inspirat en el disseny tradicional i adaptat a la modernitat.</p>
+        <ul>
+          <li>Mecanisme precís i silenciós</li>
+          <li>Disponible en tres colors</li>
+          <li>Construcció robusta i elegant</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Formulari ocult --><!-- Formulari ocult -->
 <form id="orderForm" action="https://formsubmit.co/tianvilaltapons@gmail.com" method="POST" style="display:none;">
   <input type="text" name="name" id="formName" required>
   <input type="email" name="email" value="client@example.com" required>
@@ -31,3 +108,6 @@
     }
   });
 </script>
+
+</body>
+</html>
