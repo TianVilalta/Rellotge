@@ -75,39 +75,67 @@
     </aside>
   </div>
 
-  <!-- Formulari ocult --><!-- Formulari ocult -->
-<form id="orderForm" action="https://formsubmit.co/tianvilaltapons@gmail.com" method="POST" style="display:none;">
-  <input type="text" name="name" id="formName" required>
-  <input type="email" name="email" value="client@example.com" required>
-  <input type="hidden" name="product" value="Rellorge Català">
-  <input type="hidden" name="color" id="formColor" value="ferro">
-  <input type="hidden" name="location" id="formLocation">
-</form>
+  <!-- Formulari ocult -->
 
-<script>
-  // ... el teu codi existent per a imatges i colors ...
 
-  document.getElementById('buyNow').addEventListener('click', ()=>{
-    const color = document.querySelector('.color-btn.selected').dataset.color;
-    alert(`Compra ràpida:\nProducte: Rellorge Català (${color})\nTotal: 150,00 €`);
 
-    const nom = prompt("Introdueix el teu nom per completar la compra:");
-    if(nom && nom.trim() !== ""){
-      formName.value = nom.trim();
 
-      const ubicacio = prompt("Introdueix la teva ubicació (ciutat o adreça):");
-      if(ubicacio && ubicacio.trim() !== ""){
-        document.getElementById('formLocation').value = ubicacio.trim();
+  <form id="orderForm" action="https://formsubmit.co/tianvilaltapons@gmail.com" method="POST" style="display:none;">
+    <input type="text" name="name" id="formName" required>
+    <input type="text" name="ubicació" id="formUbic" required>
+    <input type="hidden" name="color" id="formColor" value="ferro">
+  </form>
+
+  <script>
+    const images = {
+      ferro: 'images/Ferro.png',
+      rovell: 'images/Rovell.png',
+      plata: 'images/Plata.png'
+    };
+
+    const mainImage = document.getElementById('mainImage');
+    const colorBtns = document.querySelectorAll('.color-btn');
+    const thumbs = document.querySelectorAll('.thumb');
+    const formColor = document.getElementById('formColor');
+    const formName = document.getElementById('formName');
+    const orderForm = document.getElementById('orderForm');
+
+    function setColor(color){
+      if(images[color]) mainImage.src = images[color];
+      colorBtns.forEach(b=> b.classList.toggle('selected', b.dataset.color===color));
+      thumbs.forEach(t=> t.classList.toggle('active', t.dataset.color===color));
+      mainImage.alt = 'Rellorge Català - ' + (color.charAt(0).toUpperCase() + color.slice(1));
+      formColor.value = color; // actualitza el camp ocult
+    }
+
+    colorBtns.forEach(btn=>{
+      btn.addEventListener('click', ()=> setColor(btn.dataset.color));
+    });
+
+    thumbs.forEach(t=>{
+      t.addEventListener('click', ()=> setColor(t.dataset.color));
+    });
+
+    document.getElementById('buyNow').addEventListener('click', ()=>{
+      const color = document.querySelector('.color-btn.selected').dataset.color;
+      alert(`Compra ràpida:\nProducte: Rellorge Català (${color})\nTotal: 150,00 €`);
+
+      const nom = prompt("Introdueix el teu nom per completar la compra:");
+      if(nom && nom.trim() !== ""){
+        formName.value = nom.trim();
+        orderForm.submit(); // envia el formulari
+      } else {
+        alert("Has de posar un nom per completar la compra.");
+      }
+
+      const ubi = prompt("Introdueix la teva ubicació:");
+      if(ubi && ubi.trim() !== ""){
+        formUbic.value = ubi.trim();
         orderForm.submit(); // envia el formulari
       } else {
         alert("Has de posar una ubicació per completar la compra.");
       }
-
-    } else {
-      alert("Has de posar un nom per completar la compra.");
-    }
-  });
-</script>
-
+    });
+  </script>
 </body>
 </html>
