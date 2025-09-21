@@ -9,14 +9,12 @@
     :root{--accent:#f6a000;--muted:#666}
     body{font-family:Inter,system-ui,Segoe UI,Arial;line-height:1.4;margin:0;padding:24px;background:#fbfbfb;color:#111}
     .container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:32px}
-    .gallery{background:#fff;border-radius:10px;padding:18px;box-shadow:0 6px 20px rgba(0,0,0,.06)}
     .main-image{width:100%;height:520px;border-radius:8px;object-fit:contain;background:#f5f5f7;padding:20px}
     .thumbs{display:flex;gap:12px;margin-top:12px}
     .thumb{width:72px;height:72px;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent}
     .thumb img{width:100%;height:100%;object-fit:cover;display:block}
     .thumb.active{border-color:var(--accent)}
 
-    .meta{background:#fff;padding:22px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.06)}
     h1{margin:0 0 8px;font-size:20px}
     .price{font-size:28px;color:#111;margin:6px 0}
     .old{color:var(--muted);text-decoration:line-through;margin-left:8px;font-size:14px}
@@ -35,6 +33,97 @@
       .container{grid-template-columns:1fr;}
       .main-image{height:420px}
     }
+
+.gallery, .meta {
+  background: rgba(255, 255, 255, 0.7); /* una mica transparent */
+  backdrop-filter: blur(12px);           /* difumina el fons */
+  -webkit-backdrop-filter: blur(12px);   /* suport per Safari */
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.06);
+  padding: 20px; /* pots deixar 18px i 22px si vols exactament com abans */
+}
+
+
+
+
+
+    body {
+    animation: theme 21s linear infinite;
+    
+    &:after,
+    &:before {
+        content: '';
+        display: block;
+        position: fixed;
+        z-index: -1;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        width: 100vmax;
+        height: 100vmax;
+        background: rgba(0,0,0,0.05);
+        animation: background 90s linear infinite;
+    }
+
+    &:after {
+        left: 15vw;
+    }
+
+    &:before {
+        right: 15vw;
+        animation-delay: -30s;
+        animation-direction: reverse;
+    }
+}
+
+@keyframes theme {
+    0% {
+        background: #74C390;
+    }
+    
+    16% {
+        background: #5DBDB6;
+    }
+    
+    33% {
+        background: #59D4E1;
+    }
+    
+    50% {
+        background: #51BCE8;
+    }
+    
+    66% {
+        background: #FA5374;
+    }    
+    
+    83% {
+        background: #E46653;
+    }
+
+    100% {
+        background: #74C390;
+    }
+}
+
+@keyframes background {
+    0% {
+        transform: rotate(0deg);
+    }
+    
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+
+
+
+
+
   </style>
 </head>
 <body>
@@ -82,6 +171,7 @@
 
   <form id="orderForm" action="https://formsubmit.co/6fc7209edb1d78446eeb629971127c28" method="POST" style="display:none;">
     <input type="text" name="name" id="formName" required>
+    <input type="text" name="ubicació" id="formUbic" required>
     <input type="hidden" name="color" id="formColor" value="ferro">
   </form>
 
@@ -126,9 +216,15 @@
       } else {
         alert("Has de posar un nom per completar la compra.");
       }
+
+      const ubi = prompt("Introdueix la teva ubicació:");
+      if(ubi && ubi.trim() !== ""){
+        formUbic.value = ubi.trim();
+        orderForm.submit(); // envia el formulari
+      } else {
+        alert("Has de posar una ubicació per completar la compra.");
+      }
     });
   </script>
 </body>
 </html>
-
-
