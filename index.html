@@ -1,253 +1,151 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ca">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rellorge Català</title>
-  <link rel="icon" href="images/Foto.png" type="image/png">
-  <style>
-    :root{--accent:#f6a000;--muted:#666}
-    body{font-family:Inter,system-ui,Segoe UI,Arial;line-height:1.4;margin:0;padding:24px;background:#fbfbfb;color:#111}
-    .container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:32px}
-    .main-image{width:100%;height:520px;border-radius:8px;object-fit:contain;background:#f5f5f7;padding:20px}
-    .thumbs{display:flex;gap:12px;margin-top:12px}
-    .thumb{width:72px;height:72px;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent}
-    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .thumb.active{border-color:var(--accent)}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galeria</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    h1{margin:0 0 8px;font-size:20px}
-    .price{font-size:28px;color:#111;margin:6px 0}
-    .old{color:var(--muted);text-decoration:line-through;margin-left:8px;font-size:14px}
-    .label{font-size:13px;color:var(--muted);margin-top:14px}
-    .colors{display:flex;gap:10px;margin-top:10px}
-    .color-btn{padding:8px 12px;border-radius:8px;border:1px solid #e6e6e6;background:#fff;cursor:pointer}
-    .color-btn.selected{box-shadow:0 3px 8px rgba(0,0,0,.06);border-color:var(--accent)}
-    .color-preview{display:inline-block;width:18px;height:18px;border-radius:4px;vertical-align:middle;margin-right:8px}
-    .actions{margin-top:20px;display:flex;gap:12px}
-    .btn{flex:1;padding:12px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
-    .buy{background:#111;color:#fff}
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #1c1c1c;
+  }
 
-    .specs{margin-top:18px;color:var(--muted);font-size:14px}
+  /* ── IMATGE PRINCIPAL (pantalla completa) ── */
+  #main-preview {
+    position: fixed;
+    inset: 0;
 
-    @media (max-width:900px){
-      .container{grid-template-columns:1fr;}
-      .main-image{height:420px}
-    }
+  }
+  #main-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  #main-preview img.fade {
+    opacity: 0;
+    transform: scale(1.02);
+  }
 
-.gallery, .meta {
-  background: rgba(255, 255, 255, 0.7); /* una mica transparent */
-  backdrop-filter: blur(12px);           /* difumina el fons */
-  -webkit-backdrop-filter: blur(12px);   /* suport per Safari */
-  border-radius: 10px;
-  box-shadow: 0 6px 20px rgba(0,0,0,.06);
-  padding: 20px; /* pots deixar 18px i 22px si vols exactament com abans */
-}
+  /* ── BARRA DE MINIATURES ── */
+  .thumb-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 110px;
+    background: rgba(20,20,20,0.55);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    z-index: 10;
+  }
 
+  /* fletxes */
+  .arr {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.4);
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 4px 12px;
+    line-height: 1;
+    transition: color 0.2s;
+    flex-shrink: 0;
+  }
+  .arr:hover { color: rgba(255,255,255,0.9); }
 
-
-
-
-    body {
-    animation: theme 21s linear infinite;
-    
-    &:after,
-    &:before {
-        content: '';
-        display: block;
-        position: fixed;
-        z-index: -1;
-        top: 0;
-        width: 100vw;
-        height: 100vh;
-        width: 100vmax;
-        height: 100vmax;
-        background: rgba(0,0,0,0.05);
-        animation: background 90s linear infinite;
-    }
-
-    &:after {
-        left: 15vw;
-    }
-
-    &:before {
-        right: 15vw;
-        animation-delay: -30s;
-        animation-direction: reverse;
-    }
-}
-
-@keyframes theme {
-    0% {
-        background: #74C390;
-    }
-    
-    16% {
-        background: #5DBDB6;
-    }
-    
-    33% {
-        background: #59D4E1;
-    }
-    
-    50% {
-        background: #51BCE8;
-    }
-    
-    66% {
-        background: #FA5374;
-    }    
-    
-    83% {
-        background: #E46653;
-    }
-
-    100% {
-        background: #74C390;
-    }
-}
-
-@keyframes background {
-    0% {
-        transform: rotate(0deg);
-    }
-    
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-
-
-
-.galeria {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px; /* Mínim marge entre fotos */
-        padding: 5px;
-        height: 100%;
-        box-sizing: border-box;
-    }
-    .galeria img {
-        flex: 1 1 calc(50% - 10px); /* Fotos a mida màxima amb marge */
-        max-width: 100%;
-        height: auto;
-        object-fit: cover;
-    }
-
-
-
-
-  </style>
+  /* miniatures */
+  .thumb-btn {
+    width: 82px;
+    height: 82px;
+    padding: 0;
+    border: 2px solid transparent;
+    background: #2a2a2a;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    transition: border-color 0.25s;
+  }
+  .thumb-btn img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.55);
+    transition: filter 0.3s, transform 0.3s;
+  }
+  .thumb-btn:hover img { filter: brightness(0.82); transform: scale(1.06); }
+  .thumb-btn.active { border-color: rgba(255,255,255,0.75); }
+  .thumb-btn.active img { filter: brightness(1); }
+</style>
 </head>
 <body>
-  <div class="container">
-    <div class="gallery">
-      <img id="mainImage" class="main-image" src="images/Ferro.png" alt="Rellorge Català - Ferro">
-      <div class="thumbs" id="thumbs">
-        <div class="thumb active" data-color="ferro"><img src="images/Ferro.png" alt="Ferro"></div>
-        <div class="thumb" data-color="rovell"><img src="images/Rovell.png" alt="Rovell"></div>
-        <div class="thumb" data-color="plata"><img src="images/Plata.png" alt="Plata"></div>
-      </div>
-    </div>
 
-    <aside class="meta">
-      <h1>Rellorge Català</h1>
-      <div class="price">150,00 € <span class="old">199,00 €</span></div>
-
-      <div class="label">Color</div>
-      <div class="colors" id="colorBtns">
-        <button class="color-btn selected" data-color="ferro"><span class="color-preview" style="background:#5a5856"></span>Ferro</button>
-        <button class="color-btn" data-color="rovell"><span class="color-preview" style="background:#a64b2a"></span>Rovell</button>
-        <button class="color-btn" data-color="plata"><span class="color-preview" style="background:#cfcfcf"></span>Plata</button>
-      </div>
-
-      <div class="actions">
-        <button class="btn buy" id="buyNow">Comprar ara</button>
-      </div>
-
-      <div class="specs">
-        <strong>Descripció:</strong>
-        <p>Rellorge Català d'alta qualitat amb acabats personalitzats en Ferro, Rovell o Plata. Inspirat en el disseny tradicional i adaptat a la modernitat.</p>
-        <ul>
-          <li>Mecanisme precís i silenciós</li>
-          <li>Disponible en tres colors</li>
-          <li>Construcció robusta i elegant</li>
-        </ul>
-      </div>
-    </aside>
-  </div>
-
-  <div class="galeria">
-    <img src="images/Foto 1.png" alt="Foto 1">
-    <img src="images/Foto 2.png" alt="Foto 2">
-    <img src="images/Foto 3.png" alt="Foto 3">
-    <img src="images/Foto 4.png" alt="Foto 4">
-    <img src="images/Foto 5.png" alt="Foto 5">
+<!-- IMATGE GRAN -->
+<div id="main-preview">
+  <img id="main-img" src="images/4.png" alt="Imatge principal">
 </div>
 
-  <!-- Formulari ocult -->
+<!-- BARRA INFERIOR -->
+<div class="thumb-bar">
+  <button class="arr" id="arr-prev">&#8249;</button>
 
+  <button class="thumb-btn active" data-index="0">
+    <img src="images/1.png" alt="1">
+  </button>
+  <button class="thumb-btn" data-index="1">
+    <img src="images/2.png" alt="2">
+  </button>
+  <button class="thumb-btn" data-index="2">
+    <img src="images/3.png" alt="3">
+  </button>
 
+  <button class="arr" id="arr-next">&#8250;</button>
+</div>
 
+<script>
+  const images = [
+    { thumb: 'images/1.png', full: 'images/4.png' },
+    { thumb: 'images/2.png', full: 'images/5.png' },
+    { thumb: 'images/3.png', full: 'images/6.png' },
+  ];
 
-  <form id="orderForm" action="https://formsubmit.co/6fc7209edb1d78446eeb629971127c28" method="POST" style="display:none;">
-    <input type="text" name="name" id="formName" required>
-    <input type="text" name="ubicació" id="formUbic" required>
-    <input type="hidden" name="color" id="formColor" value="ferro">
-  </form>
+  let current = 0;
+  const mainImg   = document.getElementById('main-img');
+  const thumbBtns = document.querySelectorAll('.thumb-btn');
 
-  <script>
-    const images = {
-      ferro: 'images/Ferro.png',
-      rovell: 'images/Rovell.png',
-      plata: 'images/Plata.png'
-    };
+  function select(index) {
+    const next = (index + images.length) % images.length;
+    if (next === current) return;
+    current = next;
 
-    const mainImage = document.getElementById('mainImage');
-    const colorBtns = document.querySelectorAll('.color-btn');
-    const thumbs = document.querySelectorAll('.thumb');
-    const formColor = document.getElementById('formColor');
-    const formName = document.getElementById('formName');
-    const orderForm = document.getElementById('orderForm');
+    thumbBtns.forEach(b => b.classList.remove('active'));
+    thumbBtns[current].classList.add('active');
 
-    function setColor(color){
-      if(images[color]) mainImage.src = images[color];
-      colorBtns.forEach(b=> b.classList.toggle('selected', b.dataset.color===color));
-      thumbs.forEach(t=> t.classList.toggle('active', t.dataset.color===color));
-      mainImage.alt = 'Rellorge Català - ' + (color.charAt(0).toUpperCase() + color.slice(1));
-      formColor.value = color; // actualitza el camp ocult
-    }
+    mainImg.classList.add('fade');
+    setTimeout(() => {
+      mainImg.src = images[current].full;
+      mainImg.classList.remove('fade');
+    }, 320);
+  }
 
-    colorBtns.forEach(btn=>{
-      btn.addEventListener('click', ()=> setColor(btn.dataset.color));
-    });
+  thumbBtns.forEach(btn =>
+    btn.addEventListener('click', () => select(+btn.dataset.index))
+  );
 
-    thumbs.forEach(t=>{
-      t.addEventListener('click', ()=> setColor(t.dataset.color));
-    });
+  document.getElementById('arr-prev').addEventListener('click', () => select(current - 1));
+  document.getElementById('arr-next').addEventListener('click', () => select(current + 1));
 
-    document.getElementById('buyNow').addEventListener('click', ()=>{
-      const color = document.querySelector('.color-btn.selected').dataset.color;
-      alert(`Compra ràpida:\nProducte: Rellorge Català (${color})\nTotal: 150,00 €`);
-
-      const nom = prompt("Introdueix el teu nom per completar la compra:");
-      if(nom && nom.trim() !== ""){
-        formName.value = nom.trim();
-        orderForm.submit(); // envia el formulari
-      } else {
-        alert("Has de posar un nom per completar la compra.");
-      }
-
-      const ubi = prompt("Introdueix la teva ubicació:");
-      if(ubi && ubi.trim() !== ""){
-        formUbic.value = ubi.trim();
-        orderForm.submit(); // envia el formulari
-      } else {
-        alert("Has de posar una ubicació per completar la compra.");
-      }
-    });
-  </script>
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  select(current - 1);
+    if (e.key === 'ArrowRight') select(current + 1);
+  });
+</script>
 </body>
 </html>
-
-
