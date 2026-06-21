@@ -1,151 +1,268 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galeria</title>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tian Vilalta</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  html, body {
-    width: 100%; height: 100%;
-    overflow: hidden;
-    background: #1c1c1c;
-  }
+    html {
+      scroll-behavior: smooth;
+    }
 
-  /* ── IMATGE PRINCIPAL (pantalla completa) ── */
-  #main-preview {
-    position: fixed;
-    inset: 0;
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #fff;
+    }
 
-  }
-  #main-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
-  }
-  #main-preview img.fade {
-    opacity: 0;
-    transform: scale(1.02);
-  }
+    /* ===== SECCIÓ 1: PARET PANTALLA COMPLETA ===== */
+    .wall-section {
+      width: 100%;
+      height: 100vh;
+      position: relative;
+      background: #a34527 url('paret.png') no-repeat center top;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 80px 0 0;
+    }
 
-  /* ── BARRA DE MINIATURES ── */
-  .thumb-bar {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    height: 110px;
-    background: rgba(20,20,20,0.55);
-    backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 10px 16px;
-    z-index: 10;
-  }
+    .wall-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 1;
+    }
 
-  /* fletxes */
-  .arr {
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.4);
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 4px 12px;
-    line-height: 1;
-    transition: color 0.2s;
-    flex-shrink: 0;
-  }
-  .arr:hover { color: rgba(255,255,255,0.9); }
+    .wall-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
 
-  /* miniatures */
-  .thumb-btn {
-    width: 82px;
-    height: 82px;
-    padding: 0;
-    border: 2px solid transparent;
-    background: #2a2a2a;
-    cursor: pointer;
-    overflow: hidden;
-    position: relative;
-    flex-shrink: 0;
-    transition: border-color 0.25s;
-  }
-  .thumb-btn img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-    filter: brightness(0.55);
-    transition: filter 0.3s, transform 0.3s;
-  }
-  .thumb-btn:hover img { filter: brightness(0.82); transform: scale(1.06); }
-  .thumb-btn.active { border-color: rgba(255,255,255,0.75); }
-  .thumb-btn.active img { filter: brightness(1); }
-</style>
+    .wall-content h1 {
+      font-size: clamp(36px, 8vw, 72px);
+      font-weight: 800;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      line-height: 1.1;
+    }
+
+    .wall-content .line {
+      width: 80px;
+      height: 4px;
+      background: #f6a000;
+      margin: 20px auto 0;
+      border-radius: 2px;
+      box-shadow: 0 2px 12px rgba(246,160,0,0.4);
+    }
+
+    /* ===== SECCIÓ 2: RELLOTGE ===== */
+    .rellotge-section {
+      min-height: 100vh;
+      background: #0d0d0d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .rellotge-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .rellotge-row .side-text {
+      font-size: 15px;
+      color: #888;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 1.6;
+      max-width: 200px;
+      flex-shrink: 0;
+    }
+
+    .rellotge-row .side-text span {
+      color: #f6a000;
+    }
+
+    .rellotge-row .side-text.right {
+      text-align: right;
+    }
+
+    .rellotge-row img {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      display: block;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      flex-shrink: 0;
+    }
+
+    .rellotge-row img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 50px rgba(0,0,0,0.7);
+    }
+
+    .rellotge-section .caption {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #888;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .rellotge-section .caption span {
+      color: #f6a000;
+    }
+
+    @media (max-width: 700px) {
+      .rellotge-row {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .rellotge-row .side-text {
+        text-align: center !important;
+        max-width: 100%;
+      }
+    }
+
+    /* Peu */
+    .footer {
+      text-align: center;
+      padding: 30px 20px 40px;
+      font-size: 12px;
+      color: #444;
+      letter-spacing: 1px;
+      background: #0d0d0d;
+    }
+
+    /* ===== OVERLAY PANTALLA COMPLETA ===== */
+    .fullscreen-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fullscreen-overlay.open {
+      display: flex;
+    }
+
+    .fullscreen-overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .btn-close-fullscreen {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      z-index: 10000;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.4);
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      font-size: 28px;
+      line-height: 44px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-close-fullscreen:hover {
+      background: rgba(255,255,255,0.2);
+    }
+  </style>
 </head>
 <body>
 
-<!-- IMATGE GRAN -->
-<div id="main-preview">
-  <img id="main-img" src="images/4.png" alt="Imatge principal">
-</div>
+  <!-- SECCIÓ 1: PARET -->
+  <section class="wall-section">
+    <div class="wall-content">
+      <h1>Tian Vilalta</h1>
+      <div class="line"></div>
+    </div>
+  </section>
 
-<!-- BARRA INFERIOR -->
-<div class="thumb-bar">
-  <button class="arr" id="arr-prev">&#8249;</button>
+  <!-- SECCIÓ 2: RELLOTGE -->
+  <section class="rellotge-section" id="rellotgeSection">
+    <div class="rellotge-row">
+      <div class="side-text">El rellotge conté una pila interna que s'encarrega de mantenir l'hora en cas que es perdi la connexió elèctrica. Si la pila s'esgota, el rellotge continuarà funcionant sense problemes mentre estigui connectat al corrent. Tanmateix, si es desconnecta, l'hora es reiniciarà i hauràs de configurar-la manualment.</div>
+      <img id="rellotgeImg" src="rellotge.png" alt="Rellotge" />
+      <div class="side-text right"><span></span> </div>
+    </div>
+    <p class="caption"></span></p>
+  </section>
 
-  <button class="thumb-btn active" data-index="0">
-    <img src="images/1.png" alt="1">
-  </button>
-  <button class="thumb-btn" data-index="1">
-    <img src="images/2.png" alt="2">
-  </button>
-  <button class="thumb-btn" data-index="2">
-    <img src="images/3.png" alt="3">
-  </button>
+  <div class="footer">© Tian Vilalta</div>
 
-  <button class="arr" id="arr-next">&#8250;</button>
-</div>
+  <!-- OVERLAY PANTALLA COMPLETA -->
+  <div class="fullscreen-overlay" id="fullscreenOverlay">
+    <button class="btn-close-fullscreen" id="closeFullscreen">✕</button>
+    <img id="fullscreenImg" src="" alt="Vista completa" />
+  </div>
 
-<script>
-  const images = [
-    { thumb: 'images/1.png', full: 'images/4.png' },
-    { thumb: 'images/2.png', full: 'images/5.png' },
-    { thumb: 'images/3.png', full: 'images/6.png' },
-  ];
+  <script>
+    // Clic a la imatge → pantalla completa
+    const rellotgeImg = document.getElementById('rellotgeImg');
+    const overlay = document.getElementById('fullscreenOverlay');
+    const fullscreenImg = document.getElementById('fullscreenImg');
+    const closeBtn = document.getElementById('closeFullscreen');
 
-  let current = 0;
-  const mainImg   = document.getElementById('main-img');
-  const thumbBtns = document.querySelectorAll('.thumb-btn');
+    rellotgeImg.addEventListener('click', () => {
+      fullscreenImg.src = 'rellotge2.png';
+      overlay.classList.add('open');
+    });
 
-  function select(index) {
-    const next = (index + images.length) % images.length;
-    if (next === current) return;
-    current = next;
+    // Tancar pantalla completa
+    closeBtn.addEventListener('click', () => {
+      overlay.classList.remove('open');
+    });
 
-    thumbBtns.forEach(b => b.classList.remove('active'));
-    thumbBtns[current].classList.add('active');
+    // Tancar amb Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) {
+        overlay.classList.remove('open');
+      }
+    });
 
-    mainImg.classList.add('fade');
-    setTimeout(() => {
-      mainImg.src = images[current].full;
-      mainImg.classList.remove('fade');
-    }, 320);
-  }
+    // Tancar clic al fons
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.classList.remove('open');
+      }
+    });
 
-  thumbBtns.forEach(btn =>
-    btn.addEventListener('click', () => select(+btn.dataset.index))
-  );
-
-  document.getElementById('arr-prev').addEventListener('click', () => select(current - 1));
-  document.getElementById('arr-next').addEventListener('click', () => select(current + 1));
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft')  select(current - 1);
-    if (e.key === 'ArrowRight') select(current + 1);
-  });
-</script>
+    // Scroll automàtic si hi ha hash
+    if (window.location.hash === '#rellotge') {
+      document.getElementById('rellotgeSection').scrollIntoView();
+    }
+  </script>
 </body>
 </html>
