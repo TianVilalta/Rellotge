@@ -110,16 +110,8 @@
       max-width: 500px;
       height: auto;
       border-radius: 16px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
       display: block;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
       flex-shrink: 0;
-    }
-
-    .rellotge-row img:hover {
-      transform: scale(1.02);
-      box-shadow: 0 12px 50px rgba(0,0,0,0.7);
     }
 
     .rellotge-section .caption {
@@ -155,49 +147,6 @@
       background: #0d0d0d;
     }
 
-    /* ===== OVERLAY PANTALLA COMPLETA ===== */
-    .fullscreen-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: #000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .fullscreen-overlay.open {
-      display: flex;
-    }
-
-    .fullscreen-overlay img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-    }
-
-    .btn-close-fullscreen {
-      position: absolute;
-      top: 24px;
-      left: 24px;
-      z-index: 10000;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.4);
-      background: rgba(0,0,0,0.5);
-      color: #fff;
-      font-size: 28px;
-      line-height: 44px;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn-close-fullscreen:hover {
-      background: rgba(255,255,255,0.2);
-    }
   </style>
 </head>
 <body>
@@ -215,54 +164,15 @@
     <div class="rellotge-row">
       <div class="side-text">El rellotge conté una pila interna que s'encarrega de mantenir l'hora en cas que es perdi la connexió elèctrica. Si la pila s'esgota, el rellotge continuarà funcionant sense problemes mentre estigui connectat al corrent. Tanmateix, si es desconnecta, l'hora es reiniciarà i hauràs de configurar-la manualment.</div>
       <img id="rellotgeImg" src="rellotge.png" alt="Rellotge" />
-      <div class="side-text right"><span></span> </div>
+      <div class="side-text right">Els dos botons de la part superior del rellotge, serveixen per ajustar els minuts del rellotge. Si, en pujar o baixar, el valor dels minuts supera els 60 o baixa de 0, s’ajustarà l’hora.<span></span> </div>
     </div>
     <p class="caption"></span></p>
   </section>
 
   <div class="footer">© Tian Vilalta</div>
 
-  <!-- OVERLAY PANTALLA COMPLETA -->
-  <div class="fullscreen-overlay" id="fullscreenOverlay">
-    <button class="btn-close-fullscreen" id="closeFullscreen">✕</button>
-    <img id="fullscreenImg" src="" alt="Vista completa" />
-  </div>
-
   <script>
-    // Clic a la imatge → pantalla completa
-    const rellotgeImg = document.getElementById('rellotgeImg');
-    const overlay = document.getElementById('fullscreenOverlay');
-    const fullscreenImg = document.getElementById('fullscreenImg');
-    const closeBtn = document.getElementById('closeFullscreen');
-
-    rellotgeImg.addEventListener('click', () => {
-      fullscreenImg.src = 'rellotge2.png';
-      overlay.classList.add('open');
-    });
-
-    // Tancar pantalla completa
-    closeBtn.addEventListener('click', () => {
-      overlay.classList.remove('open');
-    });
-
-    // Tancar amb Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && overlay.classList.contains('open')) {
-        overlay.classList.remove('open');
-      }
-    });
-
-    // Tancar clic al fons
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
-        overlay.classList.remove('open');
-      }
-    });
-
-    // Scroll automàtic si hi ha hash
-    if (window.location.hash === '#rellotge') {
-      document.getElementById('rellotgeSection').scrollIntoView();
-    }
+    // (res)
   </script>
 </body>
 </html>
