@@ -1,178 +1,176 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tian Vilalta</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galeria</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #3b3b3b;
+  }
 
-    body {
-      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      color: #fff;
-    }
+  /* ── IMATGE PRINCIPAL (es veu sencera, el mes gran possible) ── */
+  #main-preview {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    bottom: 270px; /* deixa espai per la barra de miniatures (110px) + secció paret (160px) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #main-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  #main-preview img.fade {
+    opacity: 0;
+    transform: scale(1.02);
+  }
 
-    /* ===== SECCIÓ 1: PARET PANTALLA COMPLETA ===== */
-    .wall-section {
-      width: 100%;
-      height: 100vh;
-      position: relative;
-      background: #a34527 url('paret.png') no-repeat center top;
-      background-size: cover;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 80px 0 0;
-    }
+  /* ── SECCIÓ PARET (a sota de tot) ── */
+  .wall-section {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0e0e0e;
+    z-index: 9;
+  }
+  .wall-section img {
+    height: 140px;
+    width: auto;
+    display: block;
+    border-radius: 4px;
+  }
 
-    .wall-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.35);
-      z-index: 1;
-    }
+  /* ── BARRA DE MINIATURES ── */
+  .thumb-bar {
+    position: fixed;
+    bottom: 160px; left: 0; right: 0;
+    height: 110px;
+    background: rgba(20,20,20,0.55);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    z-index: 10;
+  }
 
-    .wall-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-    }
-
-    .wall-content h1 {
-      font-size: clamp(36px, 8vw, 72px);
-      font-weight: 800;
-      letter-spacing: 8px;
-      text-transform: uppercase;
-      color: #fff;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.6);
-      line-height: 1.1;
-    }
-
-    .wall-content .line {
-      width: 80px;
-      height: 4px;
-      background: #f6a000;
-      margin: 20px auto 0;
-      border-radius: 2px;
-      box-shadow: 0 2px 12px rgba(246,160,0,0.4);
-    }
-
-    /* ===== SECCIÓ 2: RELLOTGE ===== */
-    .rellotge-section {
-      min-height: 100vh;
-      background: #0d0d0d;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-    }
-
-    .rellotge-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
-      width: 100%;
-      max-width: 900px;
-    }
-
-    .rellotge-row .side-text {
-      font-size: 15px;
-      color: #888;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      line-height: 1.6;
-      max-width: 200px;
-      flex-shrink: 0;
-    }
-
-    .rellotge-row .side-text span {
-      color: #f6a000;
-    }
-
-    .rellotge-row .side-text.right {
-      text-align: right;
-    }
-
-    .rellotge-row img {
-      width: 100%;
-      max-width: 500px;
-      height: auto;
-      border-radius: 16px;
-      display: block;
-      flex-shrink: 0;
-    }
-
-    .rellotge-section .caption {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #888;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-
-    .rellotge-section .caption span {
-      color: #f6a000;
-    }
-
-    @media (max-width: 700px) {
-      .rellotge-row {
-        flex-direction: column;
-        gap: 20px;
-      }
-      .rellotge-row .side-text {
-        text-align: center !important;
-        max-width: 100%;
-      }
-    }
-
-    /* Peu */
-    .footer {
-      text-align: center;
-      padding: 30px 20px 40px;
-      font-size: 12px;
-      color: #444;
-      letter-spacing: 1px;
-      background: #0d0d0d;
-    }
-
-  </style>
+  /* miniatures */
+  .thumb-btn {
+    width: 82px;
+    height: 82px;
+    padding: 0;
+    border: 2px solid transparent;
+    background: #2a2a2a;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    transition: border-color 0.25s;
+  }
+  .thumb-btn img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.55);
+    transition: filter 0.3s, transform 0.3s;
+  }
+  .thumb-btn:hover img { filter: brightness(0.82); transform: scale(1.06); }
+  .thumb-btn.active { border-color: rgba(255,255,255,0.75); }
+  .thumb-btn.active img { filter: brightness(1); }
+</style>
 </head>
 <body>
 
-  <!-- SECCIÓ 1: PARET -->
-  <section class="wall-section">
-    <div class="wall-content">
-      <h1>Tian Vilalta</h1>
-      <div class="line"></div>
-    </div>
-  </section>
+<!-- IMATGE GRAN -->
+<div id="main-preview">
+  <img id="main-img" src="images/imatge1.png" alt="Imatge principal">
+</div>
 
-  <!-- SECCIÓ 2: RELLOTGE -->
-  <section class="rellotge-section" id="rellotgeSection">
-    <div class="rellotge-row">
-      <div class="side-text">El rellotge conté una pila interna que s'encarrega de mantenir l'hora en cas que es perdi la connexió elèctrica. Si la pila s'esgota, el rellotge continuarà funcionant sense problemes mentre estigui connectat al corrent. Tanmateix, si es desconnecta, l'hora es reiniciarà i hauràs de configurar-la manualment.</div>
-      <img id="rellotgeImg" src="rellotge.png" alt="Rellotge" />
-      <div class="side-text right">Els dos botons de la part superior del rellotge, serveixen per ajustar els minuts del rellotge. Si, en pujar o baixar, el valor dels minuts supera els 60 o baixa de 0, s’ajustarà l’hora.<span></span> </div>
-    </div>
-    <p class="caption"></span></p>
-  </section>
+<!-- BARRA INFERIOR -->
+<div class="thumb-bar">
+  <button class="thumb-btn active" data-index="0">
+    <img src="images/imatge1.png" alt="1">
+  </button>
+  <button class="thumb-btn" data-index="1">
+    <img src="images/imatge2.png" alt="2">
+  </button>
+  <button class="thumb-btn" data-index="2">
+    <img src="images/imatge3.png" alt="3">
+  </button>
+  <button class="thumb-btn" data-index="3">
+    <img src="images/imatge4.png" alt="4">
+  </button>
+</div>
 
-  <div class="footer">© Tian Vilalta</div>
+<!-- SECCIÓ PARET (petita, a sota de tot) -->
+<div class="wall-section">
+  <img src="images/paret.png" alt="Paret">
+</div>
 
-  <script>
-    // (res)
-  </script>
+<script>
+  const images = [
+    { thumb: 'images/imatge1.png', full: 'images/imatge1.png' },
+    { thumb: 'images/imatge2.png', full: 'images/imatge2.png' },
+    { thumb: 'images/imatge3.png', full: 'images/imatge3.png' },
+    { thumb: 'images/imatge4.png', full: 'images/imatge4.png' },
+  ];
+
+  let current = 0;
+  let autoTimer = null;
+  const AUTO_INTERVAL = 5000;
+
+  const mainImg   = document.getElementById('main-img');
+  const thumbBtns = document.querySelectorAll('.thumb-btn');
+
+  function select(index, resetTimer = true) {
+    const next = (index + images.length) % images.length;
+    if (next === current) return;
+    current = next;
+
+    thumbBtns.forEach(b => b.classList.remove('active'));
+    thumbBtns[current].classList.add('active');
+
+    mainImg.classList.add('fade');
+    setTimeout(() => {
+      mainImg.src = images[current].full;
+      mainImg.classList.remove('fade');
+    }, 320);
+
+    if (resetTimer) restartAutoRotate();
+  }
+
+  function startAutoRotate() {
+    autoTimer = setInterval(() => select(current + 1, false), AUTO_INTERVAL);
+  }
+
+  function restartAutoRotate() {
+    clearInterval(autoTimer);
+    startAutoRotate();
+  }
+
+  thumbBtns.forEach(btn =>
+    btn.addEventListener('click', () => select(+btn.dataset.index))
+  );
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  select(current - 1);
+    if (e.key === 'ArrowRight') select(current + 1);
+  });
+
+  startAutoRotate();
+</script>
 </body>
 </html>
