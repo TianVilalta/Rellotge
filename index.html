@@ -17,7 +17,7 @@
   #main-preview {
     position: fixed;
     top: 0; left: 0; right: 0;
-    bottom: 270px; /* deixa espai per la barra de miniatures (110px) + secció paret (160px) */
+    bottom: 110px; /* deixa espai només per la barra de miniatures */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,28 +34,10 @@
     transform: scale(1.02);
   }
 
-  /* ── SECCIÓ PARET (a sota de tot) ── */
-  .wall-section {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    height: 160px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #0e0e0e;
-    z-index: 9;
-  }
-  .wall-section img {
-    height: 140px;
-    width: auto;
-    display: block;
-    border-radius: 4px;
-  }
-
   /* ── BARRA DE MINIATURES ── */
   .thumb-bar {
     position: fixed;
-    bottom: 160px; left: 0; right: 0;
+    bottom: 0; left: 0; right: 0;
     height: 110px;
     background: rgba(20,20,20,0.55);
     backdrop-filter: blur(6px);
@@ -115,10 +97,6 @@
   </button>
 </div>
 
-<!-- SECCIÓ PARET (petita, a sota de tot) -->
-<div class="wall-section">
-  <img src="images/paret.png" alt="Paret">
-</div>
 
 <script>
   const images = [
