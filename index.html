@@ -6,34 +6,32 @@
 <title>Galeria</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html, body {
     width: 100%; height: 100%;
     overflow: hidden;
     background: #3b3b3b;
   }
-
-  /* ── IMATGE PRINCIPAL (es veu sencera, el mes gran possible) ── */
+  /* ── IMATGE PRINCIPAL (ocupa tot l'espai disponible, sense marges) ── */
   #main-preview {
     position: fixed;
     top: 0; left: 0; right: 0;
     bottom: 110px; /* deixa espai només per la barra de miniatures */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    overflow: hidden; /* evita que el scale del fade deixi vores buides */
   }
   #main-preview img {
+    position: absolute;
+    top: 0; left: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center;
     display: block;
     transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
   }
   #main-preview img.fade {
     opacity: 0;
-    transform: scale(1.02);
+    transform: scale(1.06); /* una mica més gran per no deixar vores en fer zoom */
   }
-
   /* ── BARRA DE MINIATURES ── */
   .thumb-bar {
     position: fixed;
@@ -48,7 +46,6 @@
     padding: 10px 16px;
     z-index: 10;
   }
-
   /* miniatures */
   .thumb-btn {
     width: 82px;
@@ -75,12 +72,10 @@
 </style>
 </head>
 <body>
-
 <!-- IMATGE GRAN -->
 <div id="main-preview">
   <img id="main-img" src="images/imatge1.png" alt="Imatge principal">
 </div>
-
 <!-- BARRA INFERIOR -->
 <div class="thumb-bar">
   <button class="thumb-btn active" data-index="0">
@@ -96,8 +91,6 @@
     <img src="images/imatge4.png" alt="4">
   </button>
 </div>
-
-
 <script>
   const images = [
     { thumb: 'images/imatge1.png', full: 'images/imatge1.png' },
@@ -105,50 +98,12 @@
     { thumb: 'images/imatge3.png', full: 'images/imatge3.png' },
     { thumb: 'images/imatge4.png', full: 'images/imatge4.png' },
   ];
-
   let current = 0;
   let autoTimer = null;
   const AUTO_INTERVAL = 5000;
-
   const mainImg   = document.getElementById('main-img');
   const thumbBtns = document.querySelectorAll('.thumb-btn');
-
   function select(index, resetTimer = true) {
     const next = (index + images.length) % images.length;
     if (next === current) return;
-    current = next;
-
-    thumbBtns.forEach(b => b.classList.remove('active'));
-    thumbBtns[current].classList.add('active');
-
-    mainImg.classList.add('fade');
-    setTimeout(() => {
-      mainImg.src = images[current].full;
-      mainImg.classList.remove('fade');
-    }, 320);
-
-    if (resetTimer) restartAutoRotate();
-  }
-
-  function startAutoRotate() {
-    autoTimer = setInterval(() => select(current + 1, false), AUTO_INTERVAL);
-  }
-
-  function restartAutoRotate() {
-    clearInterval(autoTimer);
-    startAutoRotate();
-  }
-
-  thumbBtns.forEach(btn =>
-    btn.addEventListener('click', () => select(+btn.dataset.index))
-  );
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft')  select(current - 1);
-    if (e.key === 'ArrowRight') select(current + 1);
-  });
-
-  startAutoRotate();
-</script>
-</body>
-</html>
+    current
