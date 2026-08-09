@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rellotge Minimalista - Expo</title>
+    <title>Rellotge</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -16,8 +16,7 @@
         body {
             background-color: #0f0f11;
             color: #ffffff;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+            overflow: hidden;
         }
 
         /* --- HEADER / NAVEGACIÓ --- */
@@ -189,36 +188,6 @@
             background: rgba(0, 0, 0, 0.2);
         }
 
-        .hero-content {
-            position: absolute;
-            bottom: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            text-align: center;
-            width: 100%;
-        }
-
-        .btn-discover {
-            background-color: #ffffff;
-            color: #000000;
-            padding: 14px 32px;
-            border: none;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-discover:hover {
-            background-color: #d1d1d1;
-            transform: translateY(-2px);
-        }
-
         .dots-container {
             position: absolute;
             bottom: 30px;
@@ -243,91 +212,8 @@
             transform: scale(1.3);
         }
 
-        /* --- SECCIÓ INFERIOR (CONFIGURADOR PANTALLA COMPLETA) --- */
-        .configurator-section {
-            min-height: 100vh;
-            padding: 60px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: #141416;
-        }
-
-        .display-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 100vw;
-            gap: 30px;
-        }
-
-        /* Imatge Gran ocupant quasi tota la pantalla */
-        .main-display-image {
-            width: 95vw;
-            max-width: 1600px;
-            height: 75vh;
-            object-fit: contain; /* Utilitza 'cover' si prefereixes que s'ompli retallant-se */
-            border-radius: 8px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.7);
-            transition: opacity 0.4s ease;
-            image-rendering: -webkit-optimize-contrast;
-        }
-
-        .selectors-wrapper {
-            width: 95vw;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            background: rgba(27, 27, 30, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 20px 30px;
-            border-radius: 12px;
-            border: 1px solid #2a2a2e;
-        }
-
-        .selector-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .thumbnails-row {
-            display: flex;
-            gap: 20px;
-        }
-
-        .thumb {
-            width: 100px;
-            height: 65px;
-            object-fit: cover;
-            border-radius: 6px;
-            cursor: pointer;
-            opacity: 0.5;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .thumb:hover {
-            opacity: 0.85;
-            transform: scale(1.05);
-        }
-
-        .thumb.active {
-            opacity: 1;
-            border-color: #ffffff;
-            transform: scale(1.05);
-        }
-
         @media (max-width: 768px) {
             header { padding: 15px 20px; }
-            .main-display-image { height: 50vh; width: 92vw; }
-            .thumb { width: 75px; height: 50px; }
-            .selectors-wrapper { width: 92vw; padding: 15px; }
             .modal-content { padding: 25px 20px; }
         }
     </style>
@@ -353,16 +239,12 @@
         </div>
     </div>
 
-    <!-- 1. Pantalla Principal (Hero amb 3 imatges) -->
+    <!-- Pantalla Principal (Hero amb 3 imatges) -->
     <section class="hero">
         <div class="slides-container">
             <div class="slide active" style="background-image: url('images/imatge1.png');"></div>
             <div class="slide" style="background-image: url('images/imatge2.png');"></div>
             <div class="slide" style="background-image: url('images/imatge3.png');"></div>
-        </div>
-
-        <div class="hero-content">
-            <a href="#exposicio" class="btn-discover">COMENÇAR</a>
         </div>
 
         <div class="dots-container">
@@ -372,39 +254,8 @@
         </div>
     </section>
 
-    <!-- 2. Secció Inferior (Configurador) -->
-    <section class="configurator-section" id="exposicio">
-
-        <div class="display-container">
-            <!-- Imatge Gran Dinàmica -->
-            <img id="mainImage" class="main-display-image" src="" alt="Exposició del Rellotge">
-
-            <!-- Panell de Control -->
-            <div class="selectors-wrapper">
-                
-                <!-- Apartat 1: Primer grup d'opcions -->
-                <div class="selector-group">
-                    <div class="thumbnails-row">
-                        <img id="thumb-1-0" class="thumb thumb-color active" src="" onclick="selectColor(0)" alt="Apartat 1 - Opció 1">
-                        <img id="thumb-1-1" class="thumb thumb-color" src="" onclick="selectColor(1)" alt="Apartat 1 - Opció 2">
-                    </div>
-                </div>
-
-                <!-- Apartat 2: Segon grup d'opcions -->
-                <div class="selector-group">
-                    <div class="thumbnails-row">
-                        <img id="thumb-2-0" class="thumb thumb-type active" src="" onclick="selectType(0)" alt="Apartat 2 - Opció 1">
-                        <img id="thumb-2-1" class="thumb thumb-type" src="" onclick="selectType(1)" alt="Apartat 2 - Opció 2">
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
     <script>
-        /* --- 1. LÒGICA DEL CARRUSEL SUPERIOR --- */
+        /* --- 1. LÒGICA DEL CARRUSEL --- */
         const slides = document.querySelectorAll('.slide');
         const dots = document.querySelectorAll('.dot');
         let currentSlide = 0;
@@ -436,81 +287,7 @@
 
         slideInterval = setInterval(nextSlide, 10000);
 
-
-        /* --- 2. LÒGICA DEL CONFIGURADOR DINÀMIC --- */
-        let selectedColorIndex = 0; // Index de l'Apartat 1 (0 o 1)
-        let selectedTypeIndex = 0;  // Index de l'Apartat 2 (0 o 1)
-
-        const mainImage = document.getElementById('mainImage');
-        const colorThumbs = document.querySelectorAll('.thumb-color');
-        const typeThumbs = document.querySelectorAll('.thumb-type');
-
-        // Referències a les miniatures
-        const thumb1_0 = document.getElementById('thumb-1-0');
-        const thumb1_1 = document.getElementById('thumb-1-1');
-        const thumb2_0 = document.getElementById('thumb-2-0');
-        const thumb2_1 = document.getElementById('thumb-2-1');
-
-        function updateDisplay() {
-            // 1. Actualitzar miniatures de l'Apartat 1 segons la selecció de l'Apartat 2
-            if (selectedTypeIndex === 0) {
-                thumb1_0.src = "images/imatge1.png";
-                thumb1_1.src = "images/imatge2.png";
-            } else {
-                thumb1_0.src = "images/imatge3.png";
-                thumb1_1.src = "images/imatge4.png";
-            }
-
-            // 2. Actualitzar miniatures de l'Apartat 2 segons la selecció de l'Apartat 1
-            if (selectedColorIndex === 0) {
-                thumb2_0.src = "images/imatge5.png";
-                thumb2_1.src = "images/imatge6.png";
-            } else {
-                thumb2_0.src = "images/imatge7.png";
-                thumb2_1.src = "images/imatge8.png";
-            }
-
-            // 3. Establir la imatge gran principal
-            let currentMainSrc = "";
-            if (selectedColorIndex === 0 && selectedTypeIndex === 0) {
-                currentMainSrc = "images/imatge1.png";
-            } else if (selectedColorIndex === 1 && selectedTypeIndex === 0) {
-                currentMainSrc = "images/imatge2.png";
-            } else if (selectedColorIndex === 0 && selectedTypeIndex === 1) {
-                currentMainSrc = "images/imatge3.png";
-            } else if (selectedColorIndex === 1 && selectedTypeIndex === 1) {
-                currentMainSrc = "images/imatge4.png";
-            }
-
-            // Efecte de transició suau
-            mainImage.style.opacity = '0.3';
-            setTimeout(() => {
-                mainImage.src = currentMainSrc;
-                mainImage.style.opacity = '1';
-            }, 200);
-        }
-
-        function selectColor(index) {
-            selectedColorIndex = index;
-            colorThumbs.forEach((thumb, i) => {
-                thumb.classList.toggle('active', i === index);
-            });
-            updateDisplay();
-        }
-
-        function selectType(index) {
-            selectedTypeIndex = index;
-            typeThumbs.forEach((thumb, i) => {
-                thumb.classList.toggle('active', i === index);
-            });
-            updateDisplay();
-        }
-
-        // Inicialitzar el configurador
-        updateDisplay();
-
-
-        /* --- 3. LÒGICA DEL MODAL D'INFORMACIÓ --- */
+        /* --- 2. LÒGICA DEL MODAL D'INFORMACIÓ --- */
         const infoModal = document.getElementById('infoModal');
         const openInfoBtn = document.getElementById('openInfoBtn');
         const closeInfoBtn = document.getElementById('closeInfoBtn');
