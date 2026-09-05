@@ -3,161 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rellotge</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>KLOCK</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+
     <style>
+        /* Reset i estils generals */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
         }
 
         body {
-            background-color: #0f0f11;
+            background-color: #121212;
             color: #ffffff;
-            overflow: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* --- HEADER / NAVEGACIÓ --- */
-        header {
+        /* Barra de navegació completa d'esquerra a dreta (100% d'amplada) */
+        nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 20px 40px;
+            height: 75px;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            /* Línia contínua de punt a punt de la pantalla */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            z-index: 100;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+        }
+
+        /* Contenidor intern per mantenir els marges visuals dels textos i botons */
+        .nav-content {
+            width: 90%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+
+        .nav-spacer {
+            visibility: hidden;
         }
 
         .logo {
-            font-size: 1.2rem;
-            letter-spacing: 4px;
-            font-weight: 600;
+            font-size: 1.4rem;
+            font-weight: 200;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: 6px;
             text-transform: uppercase;
+            text-align: center;
+            cursor: pointer;
         }
 
-        /* Botó d'informació */
+        .nav-right {
+            display: flex;
+            justify-content: flex-end;
+        }
+
         .info-btn {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.6);
             color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 38px;
-            height: 38px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
+            font-weight: 300;
+            font-size: 1rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-style: italic;
-            font-weight: bold;
-            font-size: 1.3rem;
-            cursor: pointer;
             transition: all 0.3s ease;
-            line-height: 1;
         }
 
         .info-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: scale(1.08);
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
         }
 
-        /* --- MODAL D'INFORMACIÓ --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 200;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
+        /* --- VISTA INICIAL / PORTADA --- */
+        #home-view {
+            display: block;
         }
 
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-content {
-            background: #1b1b1e;
-            border: 1px solid #2a2a2e;
-            border-radius: 8px;
-            padding: 35px 30px;
-            max-width: 550px;
-            width: 90%;
-            position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: #a0a0a0;
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-
-        .close-btn:hover {
-            color: #ffffff;
-        }
-
-        .modal-content h2 {
-            font-size: 1.3rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 400;
-            margin-bottom: 20px;
-            color: #ffffff;
-            border-bottom: 1px solid #2a2a2e;
-            padding-bottom: 10px;
-        }
-
-        .modal-body p {
-            color: #cccccc;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            font-weight: 300;
-        }
-
-        .modal-body p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* --- SECCIÓ PRINCIPAL (HERO / CARRUSEL) --- */
         .hero {
             position: relative;
-            width: 100vw;
+            width: 100%;
             height: 100vh;
+            min-height: 500px;
             overflow: hidden;
         }
 
-        .slides-container {
+        .slides {
             width: 100%;
             height: 100%;
-            position: relative;
         }
 
         .slide {
@@ -166,26 +115,14 @@
             left: 0;
             width: 100%;
             height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
-            
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-            
-            opacity: 0;
-            transition: opacity 1.2s ease-in-out;
         }
 
         .slide.active {
             opacity: 1;
-        }
-
-        .slide::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.2);
         }
 
         .dots-container {
@@ -194,17 +131,17 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 15px;
+            gap: 12px;
             z-index: 10;
         }
 
         .dot {
-            width: 8px;
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.4);
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         .dot.active {
@@ -212,25 +149,454 @@
             transform: scale(1.3);
         }
 
+        /* Catàleg */
+        .catalog {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #555;
+        }
+
+        .clock-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .price {
+            font-size: 1.1rem;
+            color: #888;
+            font-weight: 300;
+        }
+
+        /* --- VISTA DE DETALL DE PRODUCTE --- */
+        #product-view {
+            display: none;
+            padding: 110px 20px 60px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-block;
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: #ffffff;
+        }
+
+        .product-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        /* Galeria d'imatges del producte */
+        .gallery-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .main-image-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+        }
+
+        .main-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Fletxes de navegació */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+            user-select: none;
+        }
+
+        .arrow:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .arrow.prev { left: 15px; }
+        .arrow.next { right: 15px; }
+
+        /* Miniatures inferiors */
+        .thumbnails {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            opacity: 0.6;
+            transition: all 0.3s;
+        }
+
+        .thumb.active, .thumb:hover {
+            opacity: 1;
+            border-color: #ffffff;
+        }
+
+        /* Columna de detalls del producte */
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .product-details h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .product-details .product-price {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: #e0e0e0;
+        }
+
+        /* Estils per a l'Estoc */
+        .stock-tag {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 400;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stock-tag.in-stock {
+            color: #4CAF50;
+        }
+
+        .stock-tag.out-of-stock {
+            color: #ff5252;
+        }
+
+        .stock-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .in-stock .stock-dot { background-color: #4CAF50; }
+        .out-of-stock .stock-dot { background-color: #ff5252; }
+
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .option-group label {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            color: #aaa;
+            text-transform: uppercase;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .option-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .option-btn.active, .option-btn:hover:not(:disabled) {
+            border-color: #fff;
+            background: #2a2a2a;
+        }
+
+        .option-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            border-color: #222;
+        }
+
+        .product-desc {
+            line-height: 1.6;
+            color: #aaa;
+            font-weight: 300;
+            font-size: 0.95rem;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+        }
+
+        /* Modal d'Informació */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            line-height: 1.6;
+            font-weight: 300;
+            text-align: left;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.6rem;
+            line-height: 1;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #ffffff;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        .modal-body p {
+            color: #cccccc;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* --- ADAPTABILITAT PER A MÒBILS --- */
         @media (max-width: 768px) {
-            header { padding: 15px 20px; }
-            .modal-content { padding: 25px 20px; }
+            nav {
+                height: 60px;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+                letter-spacing: 4px;
+            }
+
+            .catalog {
+                padding: 50px 15px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .product-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .product-details h1 {
+                font-size: 1.6rem;
+            }
+
+            .product-details .product-price {
+                font-size: 1.4rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <div class="logo">Tian Vilalta</div>
-        <button class="info-btn" id="openInfoBtn" aria-label="Informació">i</button>
-    </header>
+    <!-- Navegació de 100% d'amplada -->
+    <nav>
+        <div class="nav-content">
+            <div class="nav-spacer"></div>
+            <a class="logo" onclick="showHome()">KLOCK</a>
+            <div class="nav-right">
+                <button class="info-btn" id="openInfo" title="Informació">i</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- --- VISTA PRINCIPAL (PORTADA + CATÀLEG) --- -->
+    <div id="home-view">
+        <section class="hero">
+            <div class="slides">
+                <div class="slide active" style="background-image: url('images/10.png');"></div>
+                <div class="slide" style="background-image: url('images/11.png');"></div>
+                <div class="slide" style="background-image: url('images/12.png');"></div>
+            </div>
+            <div class="dots-container">
+                <div class="dot active" onclick="setSlide(0)"></div>
+                <div class="dot" onclick="setSlide(1)"></div>
+                <div class="dot" onclick="setSlide(2)"></div>
+            </div>
+        </section>
+
+        <section class="catalog">
+            <div class="grid">
+                
+                <div class="card" onclick="openProduct('classic')">
+                    <img src="images/04.png" alt="KLOCK Classic Steel" class="clock-img">
+                    <h3>KLOCK Classic Steel</h3>
+                    <p class="price">150 €</p>
+                </div>
+
+                <div class="card" onclick="openProduct('copper')">
+                    <img src="images/05.png" alt="KLOCK Copper Edition" class="clock-img">
+                    <h3>KLOCK Copper Edition</h3>
+                    <p class="price">150 €</p>
+                </div>
+
+                <div class="card" onclick="openProduct('black')">
+                    <img src="images/06.png" alt="KLOCK Black Matte" class="clock-img">
+                    <h3>KLOCK Black Matte</h3>
+                    <p class="price">150 €</p>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- --- VISTA DE DETALL DE PRODUCTE --- -->
+    <div id="product-view">
+        <a class="back-btn" onclick="showHome()">&larr; Tornar</a>
+        <div class="product-container">
+            
+            <!-- Columna Esquerra: Galeria -->
+            <div class="gallery-container">
+                <div class="main-image-wrapper">
+                    <img id="product-main-img" src="" alt="Producte KLOCK">
+                    <button class="arrow prev" onclick="changeProductPhoto(-1)">&#10094;</button>
+                    <button class="arrow next" onclick="changeProductPhoto(1)">&#10095;</button>
+                </div>
+                <div class="thumbnails">
+                    <img id="thumb-0" class="thumb active" src="" onclick="setProductPhoto(0)">
+                    <img id="thumb-1" class="thumb" src="" onclick="setProductPhoto(1)">
+                </div>
+            </div>
+
+            <!-- Columna Dreta: Detalls, Estoc i Opcions -->
+            <div class="product-details">
+                <h1 id="product-title">KLOCK</h1>
+                <div class="product-price">150 €</div>
+
+                <!-- Indicador d'Estoc -->
+                <div id="product-stock" class="stock-tag"></div>
+
+                <div class="option-group">
+                    <label>Suport / Instal·lació</label>
+                    <div class="options">
+                        <button class="option-btn active" onclick="selectOption(this)">Peu</button>
+                        <button class="option-btn" onclick="selectOption(this)">Paret</button>
+                    </div>
+                </div>
+
+                <div class="product-desc">
+                    Exclusiu rellotge de matriu de lletres de disseny minimalista. Elaborat amb materials de primera qualitat per oferir una experiència visual i elegància atemporal en qualsevol espai.
+                </div>
+            </div>
+
+        </div>
+    </div>
 
     <!-- Modal d'Informació -->
-    <div class="modal-overlay" id="infoModal">
+    <div class="modal" id="infoModal">
         <div class="modal-content">
-            <button class="close-btn" id="closeInfoBtn">&times;</button>
-            <h2>Informació del Rellotge</h2>
+            <span class="close-btn" id="closeInfo">&times;</span>
+            <h2>Informació</h2>
             <div class="modal-body">
                 <p>Aquest rellotge disposa d'un mecanisme especial de reserva d'energia dissenyat per guardar la informació de l'hora en cas de pèrdua de llum o desconnexió elèctrica.</p>
                 <p>El dispositiu no canvia d'hora de manera automàtica durant els canvis horaris de la temporada. Per aquest motiu, s'inclouen dos botons que permeten ajustar l'hora manualment de forma ràpida i senzilla.</p>
@@ -239,35 +605,110 @@
         </div>
     </div>
 
-    <!-- Pantalla Principal (Hero amb 3 imatges) -->
-    <section class="hero">
-        <div class="slides-container">
-            <div class="slide active" style="background-image: url('images/imatge1.png');"></div>
-            <div class="slide" style="background-image: url('images/imatge2.png');"></div>
-            <div class="slide" style="background-image: url('images/imatge3.png');"></div>
-        </div>
-
-        <div class="dots-container">
-            <div class="dot active" onclick="setSlide(0)"></div>
-            <div class="dot" onclick="setSlide(1)"></div>
-            <div class="dot" onclick="setSlide(2)"></div>
-        </div>
-    </section>
-
     <script>
-        /* --- 1. LÒGICA DEL CARRUSEL --- */
+        // --- DADES DELS PRODUCTES I ESTOC ---
+        const products = {
+            'classic': {
+                title: 'KLOCK Classic Steel',
+                images: ['images/04.png', 'images/07.png'],
+                stock: 5
+            },
+            'copper': {
+                title: 'KLOCK Copper Edition',
+                images: ['images/05.png', 'images/08.png'],
+                stock: 2
+            },
+            'black': {
+                title: 'KLOCK Black Matte',
+                images: ['images/06.png', 'images/09.png'],
+                stock: 0
+            }
+        };
+
+        let currentProductKey = null;
+        let currentPhotoIndex = 0;
+
+        // --- NAVEGACIÓ ENTRE VISTES ---
+        function showHome() {
+            document.getElementById('product-view').style.display = 'none';
+            document.getElementById('home-view').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openProduct(productKey) {
+            currentProductKey = productKey;
+            currentPhotoIndex = 0;
+            const product = products[productKey];
+
+            document.getElementById('product-title').innerText = product.title;
+            
+            // Gestió de l'Estoc
+            const stockContainer = document.getElementById('product-stock');
+            const optionBtns = document.querySelectorAll('.option-btn');
+
+            if (product.stock > 0) {
+                stockContainer.className = 'stock-tag in-stock';
+                stockContainer.innerHTML = `<span class="stock-dot"></span> En estoc (${product.stock} unitats disponibles)`;
+                optionBtns.forEach(btn => btn.disabled = false);
+            } else {
+                stockContainer.className = 'stock-tag out-of-stock';
+                stockContainer.innerHTML = `<span class="stock-dot"></span> Esgotat temporalment`;
+                optionBtns.forEach(btn => btn.disabled = true);
+            }
+
+            // Carregar imatges
+            document.getElementById('thumb-0').src = product.images[0];
+            document.getElementById('thumb-1').src = product.images[1];
+            
+            updateProductGallery();
+
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('product-view').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- GALERIA DE PRODUCTE ---
+        function setProductPhoto(index) {
+            currentPhotoIndex = index;
+            updateProductGallery();
+        }
+
+        function changeProductPhoto(direction) {
+            const images = products[currentProductKey].images;
+            currentPhotoIndex = (currentPhotoIndex + direction + images.length) % images.length;
+            updateProductGallery();
+        }
+
+        function updateProductGallery() {
+            const images = products[currentProductKey].images;
+            document.getElementById('product-main-img').src = images[currentPhotoIndex];
+            
+            document.getElementById('thumb-0').classList.toggle('active', currentPhotoIndex === 0);
+            document.getElementById('thumb-1').classList.toggle('active', currentPhotoIndex === 1);
+        }
+
+        // Selecció d'opció Peu / Paret
+        function selectOption(btn) {
+            if (btn.disabled) return;
+            const buttons = btn.parentElement.querySelectorAll('.option-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // --- CARRUSEL PORTADA (5 segons) ---
         const slides = document.querySelectorAll('.slide');
         const dots = document.querySelectorAll('.dot');
         let currentSlide = 0;
         let slideInterval;
 
         function showSlide(index) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
-
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                dots[i].classList.remove('active');
+            });
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
             currentSlide = index;
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
         }
 
         function nextSlide() {
@@ -282,27 +723,27 @@
 
         function resetTimer() {
             clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 10000);
+            slideInterval = setInterval(nextSlide, 5000);
         }
 
-        slideInterval = setInterval(nextSlide, 10000);
+        slideInterval = setInterval(nextSlide, 5000);
 
-        /* --- 2. LÒGICA DEL MODAL D'INFORMACIÓ --- */
-        const infoModal = document.getElementById('infoModal');
-        const openInfoBtn = document.getElementById('openInfoBtn');
-        const closeInfoBtn = document.getElementById('closeInfoBtn');
+        // --- MODAL D'INFORMACIÓ ---
+        const modal = document.getElementById('infoModal');
+        const openBtn = document.getElementById('openInfo');
+        const closeBtn = document.getElementById('closeInfo');
 
-        openInfoBtn.addEventListener('click', () => {
-            infoModal.classList.add('active');
+        openBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
         });
 
-        closeInfoBtn.addEventListener('click', () => {
-            infoModal.classList.remove('active');
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
         });
 
-        infoModal.addEventListener('click', (e) => {
-            if (e.target === infoModal) {
-                infoModal.classList.remove('active');
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
             }
         });
     </script>
